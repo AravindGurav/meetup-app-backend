@@ -84,6 +84,32 @@ app.get("/events/:title", async (req, res) => {
      }
 })
 
+//function get event by id
+async function readEventById(eventId) {
+     try {
+          const event = await Event.findById(eventId)
+          console.log(event)
+          return event
+     } catch (error) {
+          console.log(error)
+     }
+}
+
+app.get("/events/id/:eventId", async (req, res) => {
+     try {
+          const event = await readEventById(req.params.eventId)
+          
+          if (event) {
+               res.json(event)
+          } else {
+               res.status(404).json({error: "Event not found"})
+          }
+     } catch (error) {
+          res.status(500).json({error: "Failed to fetch event"})
+     }
+})
+
+
 //function to get all events from mongoose
 async function readAllEvents() {
      try {
